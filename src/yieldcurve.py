@@ -25,3 +25,27 @@ class YieldCurve:
         self.maturities = self.maturities[order]
         self.zero_rates = self.zero_rates[order]
 
+    def get_zero_rate(self, T):
+        """
+        Return the interpolated zero rate for a given maturity T. 
+        """
+        T = float(T)
+        return float(np.interp(T, self.maturities, self.zero_rates))
+    
+    def get_discount_factor(self, T):
+        """ # doc string
+        Return the discount factor D(T) using the yield curve.
+        """
+        z = self.get_zero_rate(T)
+        # Returns the zero rate at time T 
+
+        if self.compounding == "continuous":
+            return np.exp(-z * T)
+        # Discount factor under continuous compounding 
+        elif self.compounding == "annual":
+            return 1 / (1 + z) ** T
+        # Discount factor under annual compounding
+        else: # should probably be raised in __init__  
+            raise ValueError("Compounding should be either 'continuous' or 'annual'.")
+
+
