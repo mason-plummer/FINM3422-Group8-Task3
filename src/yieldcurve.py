@@ -43,3 +43,28 @@ class YieldCurve:
         else:
             raise ValueError("Unsupported compounding method. Use 'continuous' or 'annual'.")
 
+    def plot(self, max_maturity = None):
+        """
+        Plot the yield curve up to max_maturity (years)
+        """
+        if max_maturity is None:
+            T_grid = self.maturities
+
+        else: 
+            T_grid = np.linspace(
+                self_maturities.min(), 
+                max_maturity, 
+                100
+                )
+            
+        z_grid = [self.get_zero_rate(T) for T in T_grid]
+
+        plt.figure()
+        plt.plot(T_grid, z_grid)
+        plt.xlabel("Maturity (years)")
+        plt.ylabel("Zero Rate")
+        plt.title("Yield Curve")
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+        
