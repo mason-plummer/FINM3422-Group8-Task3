@@ -52,7 +52,7 @@ class YieldCurve:
 
         else: 
             T_grid = np.linspace(
-                self_maturities.min(), 
+                self.maturities.min(), 
                 max_maturity, 
                 100
                 )
@@ -67,4 +67,3 @@ class YieldCurve:
         plt.grid(True)
         plt.tight_layout()
         plt.show()
-        
