@@ -24,13 +24,13 @@ class Derivative:
      self.T = T
      self.sigma = sigma
      self.yield_curve = yield_curve
-     r = self.yield_curve.get_zero_rate(self.T) 
+     self.r = self.yield_curve.get_zero_rate(self.T) 
      
      # d1 and d2 
-     d1 = (
-        np.log(self.S0 / self.K) + (r + 0.5 * self.sigma ** 2) * self.T
+     self.d1 = (
+        np.log(self.S0 / self.K) + (self.r + 0.5 * self.sigma ** 2) * self.T
      ) / (self.sigma * np.sqrt(self.T))
-     d2 = d1 - self.sigma * np.sqrt(self.T)
+     self.d2 = self.d1 - self.sigma * np.sqrt(self.T)
      
      # Also possible to define d1, d2 here as well.
 
@@ -49,7 +49,21 @@ class EuropeanCall(Derivative):
       Return the black-scholes price for a european call option.
       """
       call_price = (
-      self.S0 * norm.cdf(self.d1) - self.K * np.exp(-r * self.T) * norm.cdf(self.d2)
+      self.S0 * norm.cdf(self.d1) - self.K * np.exp(-self.r * self.T) * norm.cdf(self.d2)
    )
       return call_price
    
+class EuropeanPut(Derivative):
+   """
+   European Put option priced using black-scholes
+   """
+   def price(self):
+      """
+      Return the black-scholes price for a european put option.
+      """
+      put_price = (
+      self.K * np.exp(-self.r * self.T) * norm.cdf(-self.d2) - self.S0 * norm.cdf(-self.d1)
+   )
+      return put_price
+   
+   # Moved the r and d1, d2 calculations to the base class as they are common to both call and put options.
