@@ -6,7 +6,7 @@ class YieldCurve:
     YieldCurve represents a term structure of zero rates and provides discount factors for valuations. 
     
     """
-    def __init__(self, maturities, zero_rates, compounding = "coninuous"):
+    def __init__(self, maturities, zero_rates, compounding = "continuous"):
         """
         Maturies are the time to maturity for each zero rate, and zero_rates are the corresponding zero rates - for reference these will be entered in as lists. The compounding method can be "continuous" or "annual" and will be entered using strings.
         """
